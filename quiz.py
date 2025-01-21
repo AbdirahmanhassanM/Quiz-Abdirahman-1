@@ -24,8 +24,15 @@ def quiz_game():
     total_questions = len(questions)
 
     for idx, q in enumerate(questions, start=1):
+        # Shuffle options
+        shuffled_options = q["options"][:]
+        random.shuffle(shuffled_options)
+        
+        # Track the correct answer's new position
+        correct_index = shuffled_options.index(q["answer"])
+        
         print(f"\nQuestion {idx}: {q['question']}")
-        for i, option in enumerate(q['options'], start=1):
+        for i, option in enumerate(shuffled_options, start=1):
             print(f"{i}. {option}")
 
         while True:
@@ -38,7 +45,7 @@ def quiz_game():
             except ValueError:
                 print("Invalid input. Please enter a number between 1 and 4.")
 
-        if q['options'][answer - 1] == q['answer']:
+        if answer - 1 == correct_index:
             score += 1
 
     print(f"\n{player_name}, you completed the quiz!")
